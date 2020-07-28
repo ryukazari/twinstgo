@@ -24,11 +24,11 @@ func ConnectDB() *mongo.Client {
 		log.Fatal(err.Error())
 		return client
 	}
-	log.Println("Success database connection!")
+	log.Println("Success connection to the database!")
 	return client
 }
 
-// CheckConnection ping to database
+// CheckConnection ping to database, it will return true if connection was succesful
 func CheckConnection() bool {
 	err := MongoConnect.Ping(context.TODO(), nil)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	if database.CheckConnection() {
+	if !database.CheckConnection() {
 		log.Fatal("Failed to connect to the database")
 		return
 	}
