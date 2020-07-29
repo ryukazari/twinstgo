@@ -16,7 +16,7 @@ func Handlers() {
 	router := mux.NewRouter()
 
 	//routes
-	router.HandleFunc("/register", middleware.CheckDB(routers.Register)).Methods("POST")
+	router.HandleFunc("/twinst-go/api/user/register", middleware.CheckDB(routers.Register)).Methods("POST")
 
 	PORT := os.Getenv("TWINSTGO_PORT")
 	if PORT == "" {
