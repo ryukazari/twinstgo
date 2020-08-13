@@ -37,7 +37,7 @@ func ViewProfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("context-type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	resp.Data = perfil
 	json.NewEncoder(w).Encode(resp)
