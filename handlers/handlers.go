@@ -17,11 +17,14 @@ func Handlers() {
 
 	//routes
 	router.HandleFunc("/twinst-go/api/user/register", middleware.CheckDB(routers.Register)).Methods("POST")
+	router.HandleFunc("/twinst-go/api/auth/login", middleware.CheckDB(routers.Login)).Methods("POST")
+	router.HandleFunc("/twinst-go/api/user/verperfil", middleware.CheckDB(middleware.ValidateJWT(routers.ViewPerfil)).Methods("POST")
 
 	PORT := os.Getenv("TWINSTGO_PORT")
 	if PORT == "" {
 		PORT = "8080"
 	}
 	handler := cors.AllowAll().Handler(router)
+	log.Println("Server is running in port ", PORT)
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
 }

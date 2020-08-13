@@ -13,13 +13,14 @@ func UserExists(email string) (models.User, bool, string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	db := MongoConnect.Database("db_twinstgo")
+	db := MongoConnect.Database("bd_twinstgo")
 	col := db.Collection("users")
 	condition := bson.M{"email": email}
 
 	var resultado models.User
 
 	err := col.FindOne(ctx, condition).Decode(&resultado)
+
 	ID := resultado.ID.Hex()
 	if err != nil {
 		return resultado, false, ID
