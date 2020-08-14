@@ -8,37 +8,44 @@ import (
 	"github.com/ryukazari/twinstgo/models"
 )
 
-// ViewProfile extract values from profile
-func ViewProfile(w http.ResponseWriter, r *http.Request) {
+//ModifyProfile Modify user profile
+func ModifyProfile(w http.ResponseWriter, r *http.Request) {
 	resp := models.Response{
 		Ok:     true,
 		Status: http.StatusOK,
 	}
 	w.Header().Set("Content-Type", "application/json")
 
-	ID := r.URL.Query().Get("id")
-	if len(ID) < 1 {
-		// http.Error(w, "Must to send ID parameter", http.StatusBadRequest)
-		w.WriteHeader(http.StatusBadRequest)
-		resp.Ok = false
-		resp.Message = "Must to send ID parameter"
-		resp.Status = http.StatusBadRequest
-		json.NewEncoder(w).Encode(resp)
-		return
-	}
+	var t models.User
 
-	perfil, err := database.SearchPerfil(ID)
+	err := json.NewDecoder(r.Body).Decode(&t)
 	if err != nil {
-		// http.Error(w, "An error ocurred during search profile: "+err.Error(), http.StatusBadRequest)
 		w.WriteHeader(http.StatusBadRequest)
 		resp.Ok = false
-		resp.Message = "An error ocurred during search profile: " + err.Error()
 		resp.Status = http.StatusBadRequest
+		resp.Message = "Invalid data " + err.Error()
 		json.NewEncoder(w).Encode(resp)
 		return
 	}
-
+	var status bool
+	status, err = database.ModifyRegister(t, IDUsuario)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		resp.Message = "Error during modified register " + err.Error()
+		resp.Status = http.StatusBadRequest
+		resp.Ok = false
+		json.NewEncoder(w).Encode(resp)
+		return
+	}
+	if !status {
+		w.WriteHeader(http.StatusBadRequest)
+		resp.Ok = false
+		resp.Status = http.StatusBadRequest
+		resp.Message = "Error during modify register"
+		return
+	}
 	w.WriteHeader(http.StatusOK)
-	resp.Data = perfil
+	resp.Message = "Registry modified successfully"
 	json.NewEncoder(w).Encode(resp)
+	return
 }

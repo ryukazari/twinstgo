@@ -19,6 +19,7 @@ func Handlers() {
 	router.HandleFunc("/twinst-go/api/user/register", middleware.CheckDB(routers.Register)).Methods("POST")
 	router.HandleFunc("/twinst-go/api/auth/login", middleware.CheckDB(routers.Login)).Methods("POST")
 	router.HandleFunc("/twinst-go/api/user/verperfil", middleware.CheckDB(middleware.ValidateJWT(routers.ViewProfile))).Methods("GET")
+	router.HandleFunc("/twinst-go/api/user/modificarPerfil", middleware.CheckDB(middleware.ValidateJWT(routers.ModifyProfile))).Methods("PUT")
 
 	PORT := os.Getenv("TWINSTGO_PORT")
 	if PORT == "" {
