@@ -23,7 +23,7 @@ func Handlers() {
 	router.HandleFunc("/twinst-go/api/twit/crear", middleware.CheckDB(middleware.ValidateJWT(routers.CreateTwit))).Methods("POST")
 	router.HandleFunc("/twinst-go/api/twit/leerTwits", middleware.CheckDB(middleware.ValidateJWT(routers.ReadTwits))).Methods("GET")
 
-	PORT := os.Getenv("TWINSTGO_PORT")
+	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "8080"
 	}
