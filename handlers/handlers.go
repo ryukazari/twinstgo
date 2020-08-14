@@ -22,6 +22,7 @@ func Handlers() {
 	router.HandleFunc("/twinst-go/api/user/modificarPerfil", middleware.CheckDB(middleware.ValidateJWT(routers.ModifyProfile))).Methods("PUT")
 	router.HandleFunc("/twinst-go/api/twit/crear", middleware.CheckDB(middleware.ValidateJWT(routers.CreateTwit))).Methods("POST")
 	router.HandleFunc("/twinst-go/api/twit/leerTwits", middleware.CheckDB(middleware.ValidateJWT(routers.ReadTwits))).Methods("GET")
+	router.HandleFunc("/twinst-go/api/twit/eliminarTwit", middleware.CheckDB(middleware.ValidateJWT(routers.DeleteTwit))).Methods("DELETE")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
