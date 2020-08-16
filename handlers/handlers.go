@@ -25,6 +25,7 @@ func Handlers() {
 	router.HandleFunc("/twinst-go/api/user/obtenerAvatar", middleware.CheckDB(routers.GetAvatar)).Methods("GET")
 	router.HandleFunc("/twinst-go/api/user/subirBanner", middleware.CheckDB(middleware.ValidateJWT(routers.UploadBanner))).Methods("POST")
 	router.HandleFunc("/twinst-go/api/user/obtenerBanner", middleware.CheckDB(routers.GetBanner)).Methods("GET")
+	router.HandleFunc("/twinst-go/api/user/listar", middleware.CheckDB(middleware.ValidateJWT(routers.ReadAllUsers))).Methods("GET")
 
 	router.HandleFunc("/twinst-go/api/twit/crear", middleware.CheckDB(middleware.ValidateJWT(routers.CreateTwit))).Methods("POST")
 	router.HandleFunc("/twinst-go/api/twit/leerTwits", middleware.CheckDB(middleware.ValidateJWT(routers.ReadTwits))).Methods("GET")
