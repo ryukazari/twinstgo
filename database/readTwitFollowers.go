@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/ryukazari/twinstgo/models"
@@ -14,7 +15,7 @@ func ReadTwitFollowers(ID string, pagina int) ([]models.TwitFollowersResponse, b
 	defer cancel()
 
 	db := MongoConnect.Database("bd_twinstgo")
-	col := db.Collection("relation")
+	col := db.Collection("relations")
 
 	skip := (pagina - 1) * 20
 	condiciones := make([]bson.M, 0)
@@ -22,7 +23,7 @@ func ReadTwitFollowers(ID string, pagina int) ([]models.TwitFollowersResponse, b
 	condiciones = append(condiciones, bson.M{
 		"$lookup": bson.M{
 			"from":         "twit", // con que tabla se unirá la tabla relation
-			"localField":   "userrelationid",
+			"localField":   "userfollowedid",
 			"foreignField": "userid",
 			"as":           "twit",
 		},
@@ -36,8 +37,8 @@ func ReadTwitFollowers(ID string, pagina int) ([]models.TwitFollowersResponse, b
 	var result []models.TwitFollowersResponse
 	err = cursor.All(ctx, &result)
 	if err != nil {
+		fmt.Println(err.Error())
 		return result, false
 	}
-
 	return result, true
 }
